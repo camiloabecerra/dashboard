@@ -1,0 +1,3 @@
+dashboard/.env.local
+backend/firebase_private.json
+backend/.env
