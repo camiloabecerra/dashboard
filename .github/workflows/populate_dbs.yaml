@@ -1,0 +1,27 @@
+name: Scheduled DB updates
+
+on:
+  schedule:
+    - cron: "0 */6 * * *"
+  workflow_dispatch:
+
+jobs:
+  run-script:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Python setup
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.10"
+      - name: Change into backend directory
+        run: cd backend
+      - name: Create firebase_private.json file
+        run: echo "${{ secrets.FIREBASE_PRIVATE_JSON }} > {{ secrets.FIRESTORE_PRIVATE_PATH }}"
+      - name: Run script
+        env:
+          FIRESTORE_PRIVATE_PATH: ${{ secrets.FIRESTORE_PRIVATE_PATH }}
+          NYT_API_KEY: ${{ secrets.NYT_API_KEY }}
+          NYT_API_SECRET: ${{ secrets.NYT_API_SECRET }}
+          WSJ_API_KEY: ${{ secrets.WSJ_API_KEY }}
+        run: python3 populate_dbs.py
