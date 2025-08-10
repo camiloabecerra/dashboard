@@ -88,4 +88,5 @@ def get_sentiment(input):
     plt.show()
     '''
 
-print(get_sentiment(sys.argv[1]))
+if __name__ == "__main__":
+    print(get_sentiment(sys.argv[1]))
