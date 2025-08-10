@@ -52,7 +52,7 @@ def update_internships():
             "date":str(cells[4]).split("<td>")[1].split("</td>")[0]
         }
         
-        data["date"] = datetime.strptime(f"{data["date"]} {datetime.now().year}", "%b %d %Y")
+        data["date"] = datetime.strptime(str({data["date"]}) + " " + str({datetime.now().year}), "%b %d %Y")
     
         entry_id = data["role"] + " @ " + data["company"]
         
