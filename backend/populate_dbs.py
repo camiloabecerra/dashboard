@@ -7,8 +7,6 @@ from datetime import datetime
 import requests
 from bs4 import BeautifulSoup
 
-from selenium import webdriver
-
 import firebase_admin
 from firebase_admin import credentials
 from firebase_admin import firestore 
@@ -52,7 +50,7 @@ def update_internships():
             "date":str(cells[4]).split("<td>")[1].split("</td>")[0]
         }
         
-        data["date"] = datetime.strptime(str({data["date"]}) + " " + str({datetime.now().year}), "%b %d %Y")
+        data["date"] = datetime.strptime(str(data["date"]) + " " + str(datetime.now().year), "%b %d %Y")
     
         entry_id = data["role"] + " @ " + data["company"]
         
