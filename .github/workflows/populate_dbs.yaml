@@ -19,10 +19,10 @@ jobs:
       - name: Run script
         run: |
           cd backend
-          echo '${{ secrets.FIREBASE_PRIVATE_JSON }}' > "{{ secrets.FIRESTORE_PRIVATE_PATH }}"
+          echo '${{ secrets.FIREBASE_PRIVATE_JSON }}' > firestore_private.json
           python3 populate_dbs.py
         env:
-          FIRESTORE_PRIVATE_PATH: ${{ secrets.FIRESTORE_PRIVATE_PATH }}
+          FIRESTORE_PRIVATE_PATH: firestore_private.json
           NYT_API_KEY: ${{ secrets.NYT_API_KEY }}
           NYT_API_SECRET: ${{ secrets.NYT_API_SECRET }}
           WSJ_API_KEY: ${{ secrets.WSJ_API_KEY }}
