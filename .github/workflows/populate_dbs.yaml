@@ -19,7 +19,7 @@ jobs:
       - name: Run script
         run: |
           cd backend
-          echo "${{ secrets.FIREBASE_PRIVATE_JSON }} > {{ secrets.FIRESTORE_PRIVATE_PATH }}"
+          echo "${{ secrets.FIREBASE_PRIVATE_JSON }}" > "{{ secrets.FIRESTORE_PRIVATE_PATH }}"
           python3 populate_dbs.py
         env:
           FIRESTORE_PRIVATE_PATH: ${{ secrets.FIRESTORE_PRIVATE_PATH }}
