@@ -14,7 +14,7 @@ app.get('/get-reddit-sentiment', (req, res) => {
     let output = '';
     proc.stdout.on('data', (data) => {
         output += data.toString();
-        res.send(output.trim());
+        res.json(output.trim());
     });
 })
 

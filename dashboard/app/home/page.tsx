@@ -51,14 +51,10 @@ export default function Home() {
   const [query, setQuery] = useState("");
   const [sentiment, setSentiment] = useState("");
   const sendTopic = async () => {
-    console.log("entered");
-    console.log(`prompt:${query}`);
     try {
         const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/get-reddit-sentiment?topic=${encodeURIComponent(query)}`);
         const data = await res.json();
         setSentiment(data);
-        console.log(data);
-        console.log(sentiment);
     }
     catch (e) {
         console.error(e);
@@ -118,7 +114,8 @@ export default function Home() {
                 <Button type="submit" variant="outline" onClick={sendTopic}>
                     Submit
                 </Button>
-                </div>
+              </div>
+              <div> {sentiment} </div>
               </CardContent>
             </Card>
           </div>

@@ -10,7 +10,8 @@ import matplotlib.pyplot as plt
 
 import praw
 from transformers import pipeline, logging
-from gpt4all import GPT4All
+#from gpt4all import GPT4All
+from google import genai
 
 import warnings
 
@@ -23,7 +24,7 @@ MAX_COMMENTS_PER_POST = 20
 MAX_CHARS_PER_COMMENT = 200
 
 reddit = praw.Reddit(client_id=os.getenv("REDDIT_API_ID"), client_secret=os.getenv("REDDIT_API_SECRET"), user_agent=os.getenv("REDDIT_API_USER_AGENT"))
-model = GPT4All("Meta-Llama-3-8B-Instruct.Q4_0.gguf", n_ctx=CONTEXT_SIZE)
+#model = GPT4All("Meta-Llama-3-8B-Instruct.Q4_0.gguf", n_ctx=CONTEXT_SIZE)
 sentiment_pipeline = pipeline(model="cardiffnlp/twitter-roberta-base-sentiment-latest") # -- must set truncation=True
 
 def get_sentiment(input):
@@ -63,8 +64,17 @@ def get_sentiment(input):
             sentiment_str = sentiment_str[:CONTEXT_SIZE]
             break
 
-    with model.chat_session():
-        summary = model.generate(f"Summarize these opinions, and state the general opinion about the subject {input}. Opinions: {sentiment_str}", max_tokens=200)
+    client = genai.Client(api_key=os.getenv("GEMINI_API_KEY"))
+    prompt = f"Summarize these opinions, and state the general opinion about the subject {input} in 200 words or less. Opinions: {sentiment_str}"
+    response = client.models.generate_content(
+        model="gemini-2.0-flash", contents=prompt
+    )
+    summary = response.text
+
+    print(summary)
+
+    #with model.chat_session():
+    #    summary = model.generate(f"Summarize these opinions, and state the general opinion about the subject {input}. Opinions: {sentiment_str}", max_tokens=200)
 
     return summary
 
