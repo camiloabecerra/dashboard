@@ -9,6 +9,8 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination"
+import { Input } from "@/components/ui/input"
+import { Button } from "@/components/ui/button"
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
@@ -45,6 +47,23 @@ export default function Home() {
   const eltsPerNewsPage = 5;
   const totalNewsPages = 10;
   const startNewsIdx = (currentNewsPage - 1) * eltsPerNewsPage;
+
+  const [query, setQuery] = useState("");
+  const [sentiment, setSentiment] = useState("");
+  const sendTopic = async () => {
+    console.log("entered");
+    console.log(`prompt:${query}`);
+    try {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/get-reddit-sentiment?topic=${encodeURIComponent(query)}`);
+        const data = await res.json();
+        setSentiment(data);
+        console.log(data);
+        console.log(sentiment);
+    }
+    catch (e) {
+        console.error(e);
+    } 
+  }
 
   const [currentPage, setCurrentPage] = useState(1);
   const eltsPerPage = 10;
@@ -92,8 +111,14 @@ export default function Home() {
           </div>  
           <div className="flex-1">
             <Card>
-              <CardTitle className="text-xl text-[#326273] flex justify-center"></CardTitle>
+              <CardTitle className="text-xl text-[#326273] flex justify-center">Summarize Reddit Opinion</CardTitle>
               <CardContent>
+              <div className="flex w-full max-w-sm items-center gap-2">
+                <Input placeholder="Enter Topic To Analyze" onChange={(topic) => setQuery(topic.target.value)}/>
+                <Button type="submit" variant="outline" onClick={sendTopic}>
+                    Submit
+                </Button>
+                </div>
               </CardContent>
             </Card>
           </div>
