@@ -39,8 +39,8 @@ export default function Home() {
   }, []);
   
   useEffect(() => {
-      fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/get-news`).then((res) => res.json()).then((data) => setArticles(data));
-      fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/get-internships`).then((res) => res.json()).then((data) => setInternships(data));
+      fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/news`).then((res) => res.json()).then((data) => setArticles(data));
+      fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/internships`).then((res) => res.json()).then((data) => setInternships(data));
   }, []);
   
   const [currentNewsPage, setCurrentNewsPage] = useState(1);
@@ -51,8 +51,9 @@ export default function Home() {
   const [query, setQuery] = useState("");
   const [sentiment, setSentiment] = useState("");
   const sendTopic = async () => {
+    setQuery("");
     try {
-        const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/get-reddit-sentiment?topic=${encodeURIComponent(query)}`);
+        const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/reddit-sentiment?topic=${encodeURIComponent(query)}`);
         const data = await res.json();
         setSentiment(data);
     }

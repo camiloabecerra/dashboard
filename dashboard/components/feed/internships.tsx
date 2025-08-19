@@ -27,7 +27,7 @@ export default function InternshipEntry({ role, company, dateReleased, applicati
       </ResizablePanel>
       <ResizablePanel defaultSize={20}>
         <div className="flex h-full items-center justify-center">
-          <span className="font-semibold line-clamp-2">{new Date(dateReleased._seconds * 1000).toLocaleDateString()}</span>
+          <span className="font-semibold line-clamp-2">{new Date(dateReleased._seconds * 1000).toLocaleDateString("en-US", {month: "2-digit", day: "2-digit",})}</span>
         </div>
       </ResizablePanel>
       <ResizablePanel defaultSize={10}>

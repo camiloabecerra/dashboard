@@ -7,7 +7,7 @@ const port = 3030;
 const cors = require('cors');
 app.use(cors({ origin: 'http://localhost:3000' }));
 
-app.get('/get-reddit-sentiment', (req, res) => {
+app.get('/reddit-sentiment', (req, res) => {
     const topic = req.query.topic;
     const proc = spawn('python3', ['get_sentiment.py', topic]);
     
@@ -18,7 +18,7 @@ app.get('/get-reddit-sentiment', (req, res) => {
     });
 })
 
-app.get('/get-internships', async (req, res) => {
+app.get('/internships', async (req, res) => {
     try {
         const snapshot = await db.collection('internships').get();
         const data = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
@@ -29,7 +29,7 @@ app.get('/get-internships', async (req, res) => {
     }
 })
 
-app.get('/get-news', async (req, res) => {
+app.get('/news', async (req, res) => {
     try {
         const snapshot = await db.collection('news').get();
         const data = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
